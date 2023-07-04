@@ -13,7 +13,10 @@ mod tests {
     }
 }
 use cosmwasm_std::{entry_point, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult};
+mod contract;
 pub mod msg;
+
+
 #[entry_point]
 pub fn instantiate(
     _deps: DepsMut, 
@@ -38,8 +41,11 @@ pub fn execute(
 pub fn query(
     _deps: Deps,
     _env: Env,
-    _msg: Empty,
+    msg: msg::QueryMsg,
 ) -> StdResult<Binary> {
-    Ok(Binary::default())
+    use msg::QueryMsg::*;
+    match msg {
+        Value {} => to_binary(&contract::query::value())
+    }
 }
 
